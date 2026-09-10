@@ -1,0 +1,42 @@
+DataBase New Batch:QT_237
+----------------
+Krishna:Database and Automation Testing
+
+Role:Software Test Engineer[STE]/SDET 
+Responsibilities:Day to Day 
+TCS:Project:Insurgence
+To test the app, Quality or Defect
+
+Goal:To delivery Quality app to Clients or Market.
+Amazon:Quality
+
+Manual Testing:SDLC STLC BLC 
+API Testing:Mediator
+Reg Login Cart Payment:Automation
+
+DataBase:Store and Retrieve the Data 
+Collection of Tables
+
+SQL:Structured Query Language
+Queries:Question: Krishna Sir 
+
+Collection of Data or Information
+Data:Raw facts.  Ramesh Suresh Mahesh 
+Information:N Ramesh 33 99999 Hyd.
+Processed data is called information.
+
+SQL:OracleDB:Software:App 
+Download and Install
+Oracle 11g Express Edition 
+
+GitHub: https://github.com/krishnasoftwaretrainer/QT_DataBase_SQL_237_Batch.git
+
+Traditional:Manual
+Modern:
+
+1.Web App[URL]->Browsers 
+2.Desktop App:.exe [Softwares]
+3.Mobile App:.apk .ios 
+
+OracleDB Download Link: https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+
