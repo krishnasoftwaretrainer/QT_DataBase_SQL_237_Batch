@@ -1,0 +1,354 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Sep 11 09:13:17 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> create user qt237 identified by qt237;
+SP2-0640: Not connected
+SQL> connect / as sysdba;
+Connected.
+SQL> create user qt237 identified by qt237;
+
+User created.
+
+SQL> connect qt237
+Enter password:
+ERROR:
+ORA-01045: user QT237 lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all priviliges to qt237;
+grant all priviliges to qt237
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant all privileges to qt237;
+
+Grant succeeded.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> connect / as sysdba;
+Connected.
+SQL> revoke all privileges from qt237;
+
+Revoke succeeded.
+
+SQL> connect qt237
+Enter password:
+ERROR:
+ORA-01045: user QT237 lacks CREATE SESSION privilege; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> connect / as sysdba;
+Connected.
+SQL> grant all privileges to qt237;
+
+Grant succeeded.
+
+SQL>
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> create table student(htno number(3),sname varchar2,marks number(2));
+create table student(htno number(3),sname varchar2,marks number(2))
+                                                  *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL> create table student(htno number(3),sname varchar2(10),marks number(2));
+
+Table created.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+
+SQL> alter student add gender varchar2(10);
+alter student add gender varchar2(10)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL> alter table student add gender varchar2(10);
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+
+SQL> alter table student add percet varchar2(10);
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+ PERCET                                             VARCHAR2(10)
+
+SQL> alter table student modify percet number(3);
+
+Table altered.
+
+SQL> alter table student rename column percet to percentage;
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+ PERCENTAGE                                         NUMBER(3)
+
+SQL> alter table student drop column percentage;
+
+Table altered.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+
+SQL> rename student to stu1;
+
+Table renamed.
+
+SQL> desc student;
+ERROR:
+ORA-04043: object student does not exist
+
+
+SQL> desc stu1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+
+SQL> insert into stu1 values(101,'Ramu',99,'Male');
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+
+SQL> insert into stu1 values(1022,'Ramu',99,'Male');
+insert into stu1 values(1022,'Ramu',99,'Male')
+                        *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into stu1 values(102,54522,99,'Male');
+
+1 row created.
+
+SQL> insert into stu1 values('102',54522,99,'Male');
+
+1 row created.
+
+SQL> insert into stu1 values('102',54522,99,Male);
+insert into stu1 values('102',54522,99,Male)
+                                       *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into stu1 values('krishna','ddferf',99,'Male');
+insert into stu1 values('krishna','ddferf',99,'Male')
+                        *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+
+SQL> insert into stu1 values(101,'Ramu');
+insert into stu1 values(101,'Ramu')
+            *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> insert into stu1(htno,sname) values(104,'Krishna');
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+
+SQL> insert into stu1(htno,gender) values(105,'Female');
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105                       Female
+
+SQL> insert into stu1 values(&htno,&sname,&marks,&gender);
+Enter value for htno: 106
+Enter value for sname: 'hdjdh'
+Enter value for marks: 88
+Enter value for gender: 'dfg'
+old   1: insert into stu1 values(&htno,&sname,&marks,&gender)
+new   1: insert into stu1 values(106,'hdjdh',88,'dfg')
+
+1 row created.
+
+SQL> /
+Enter value for htno: 107
+Enter value for sname: 'ghjhkj'
+Enter value for marks: 77
+Enter value for gender: 'gjkk'
+old   1: insert into stu1 values(&htno,&sname,&marks,&gender)
+new   1: insert into stu1 values(107,'ghjhkj',77,'gjkk')
+
+1 row created.
+
+SQL> /
+Enter value for htno: 108
+Enter value for sname: 'dfgdf'
+Enter value for marks: 55
+Enter value for gender: 'sdgsg'
+old   1: insert into stu1 values(&htno,&sname,&marks,&gender)
+new   1: insert into stu1 values(108,'dfgdf',55,'sdgsg')
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105                       Female
+       106 hdjdh              88 dfg
+       107 ghjhkj             77 gjkk
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> insert into stu1 values(&&htno,&&sname,&&marks,&&gender);
+Enter value for htno: 109
+Enter value for sname: 'Suresh'
+Enter value for marks: 66
+Enter value for gender: 'Male'
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> //
+old   1: insert into stu1 values(&&htno,&&sname,&&marks,&&gender)
+new   1: insert into stu1 values(109,'Suresh',66,'Male')
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105                       Female
+       106 hdjdh              88 dfg
+       107 ghjhkj             77 gjkk
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL>

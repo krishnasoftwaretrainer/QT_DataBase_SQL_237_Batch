@@ -40,3 +40,70 @@ Modern:
 
 OracleDB Download Link: https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
 
+OracleDB Download Link: https://www.oracle.com/database/technologies/xe-prior-release-downloads.html
+
+
+
+
+
+
+DataBase
+Table/s 
+Record/s 
+
+Store
+Update
+Select/Retrieve
+Delete
+
+CRUD:Create Retrieve Update Delete
+
+Create User[Database]:
+Syntax:create user username identified by password;
+Example:
+
+DBA: connect as sysdba then create user and grant privileges
+
+DDL:Data Definition Language[Structure]
+A.create:Using to create new database table.
+Syntax:create table tablename(column1 datatype(size));
+
+Numbers[Plain and Point] Characters(String
+) Date
+B.alter: Modify or alter the structure of already created database table.
+
+a.add new columns
+b.modify data type or size
+c.rename the existing column names.
+d.drop or delete specfic column name.
+
+C.Rename:To rename the exisiting tablename.
+
+D.Drop 
+E.Truncate
+
+DML:Data Manipulation Language
+A.Insert:To store or insert the data or information in existing database table structure.
+Syntax:insert into tablename values(Value1,Value2,Value3,.....);
+
+B.Select:To view or select the data.
+Syntax:select * from tablename;
+
+C.Update
+D.Delete
+
+
+Delete	Truncate	Drop 
+
+
+
+DCL:Data Control Language[SYSDBA]
+grant:Provide all privileges to user.
+SQL> grant all privileges to qt237;
+Grant succeeded.
+
+revoke:Cancel all privilege from user.
+SQL> revoke all privileges from qt237;
+Revoke succeeded.
+
+TCL:Transaction Control Language
