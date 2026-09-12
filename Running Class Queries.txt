@@ -352,3 +352,935 @@ SQL> select * from stu1;
 15 rows selected.
 
 SQL>
+======================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Sat Sep 12 09:06:31 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+
+SQL> desc stu1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105                       Female
+       106 hdjdh              88 dfg
+       107 ghjhkj             77 gjkk
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> select htno,sname,marks from stu1;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 54522              99
+       102 54522              99
+       104 Krishna
+       105
+       106 hdjdh              88
+       107 ghjhkj             77
+       108 dfgdf              55
+       109 Suresh             66
+       109 Suresh             66
+       109 Suresh             66
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       109 Suresh             66
+       109 Suresh             66
+       109 Suresh             66
+       109 Suresh             66
+
+15 rows selected.
+
+SQL> select htno,sname,marks from stu1 where marks>=80;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 54522              99
+       102 54522              99
+       106 hdjdh              88
+
+SQL> select htno,sname,marks from stu1 where marks>=80 and htno is not null;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 54522              99
+       102 54522              99
+       106 hdjdh              88
+
+SQL> update stu1 set sname='QT';
+
+15 rows updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 QT                 99 Male
+       102 QT                 99 Male
+       102 QT                 99 Male
+       104 QT
+       105 QT                    Female
+       106 QT                 88 dfg
+       107 QT                 77 gjkk
+       108 QT                 55 sdgsg
+       109 QT                 66 Male
+       109 QT                 66 Male
+       109 QT                 66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 QT                 66 Male
+       109 QT                 66 Male
+       109 QT                 66 Male
+       109 QT                 66 Male
+
+15 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105                       Female
+       106 hdjdh              88 dfg
+       107 ghjhkj             77 gjkk
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> update stu1 set sname='QT' where htno=105;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 hdjdh              88 dfg
+       107 ghjhkj             77 gjkk
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set sname='Mohan',gender='Male',marks=45 where htno=107;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 hdjdh              88 dfg
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set sname='Mohan',gender='Male',marks=45 where htno=117;
+
+0 rows updated.
+
+SQL>
+SQL> commit;
+
+Commit complete.
+
+SQL> update stu1 set sname='Lalitha' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 dfg
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='female' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 female
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> update stu1 set gender='gemale' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemale
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 female
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='gemale' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemale
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='gemakk' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='gennkk' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gennkk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 female
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='gemakk' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> update stu1 set gender='gemakk' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> update stu1 set gender='gennkk' where htno=106;
+
+1 row updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gennkk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+
+SQL> create table stu2 as select * from stu1;
+
+Table created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> select * from stu2;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> select * from stu3;
+select * from stu3
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+
+SQL> create table stu3 as select htno,sname from stu1 where marks>=80;
+
+Table created.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> commit;
+
+Commit complete.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> delete stu3;
+
+4 rows deleted.
+
+SQL> select * from stu3;
+
+no rows selected
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete stu3 where htno=102;
+
+2 rows deleted.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       106 Lalitha
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete stu3 where htno=102;
+
+2 rows deleted.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       106 Lalitha
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       106 Lalitha
+
+SQL> commit;
+
+Commit complete.
+
+SQL> truncate table stu3;
+
+Table truncated.
+
+SQL> select * from stu3;
+
+no rows selected
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+no rows selected
+
+SQL> desc stu3;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+
+SQL> create table stu4 as select htno,sname from stu1 where marks>=80;
+
+Table created.
+
+SQL> select * from stu4;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> drop table stu4;
+
+Table dropped.
+
+SQL> select * from stu4;
+select * from stu4
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc stu4;
+ERROR:
+ORA-04043: object stu4 does not exist
+
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+
+SQL> drop table stu3;
+
+Table dropped.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+
+SQL> create table stu3 as select htno,sname from stu1 where marks>=80;
+
+Table created.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> commit;
+
+Commit complete.
+
+SQL> delete stu3 where htno=106;
+
+1 row deleted.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+
+SQL> savepoint sp1;
+
+Savepoint created.
+
+SQL> delete stu3 where htno=101;
+
+1 row deleted.
+
+SQL> savepoint sp2;
+
+Savepoint created.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       102 54522
+       102 54522
+
+SQL> delete stu3 where htno=102;
+
+2 rows deleted.
+
+SQL> select * from stu3;
+
+no rows selected
+
+SQL> rollback to sp2;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       102 54522
+       102 54522
+
+SQL> rollback to sp1;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL>

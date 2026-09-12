@@ -107,3 +107,88 @@ SQL> revoke all privileges from qt237;
 Revoke succeeded.
 
 TCL:Transaction Control Language
+=====================
+DBA: connect as sysdba then create user and grant privileges
+
+DDL:Data Definition Language[Structure]
+A.create:Using to create new database table.
+Syntax:create table tablename(column1 datatype(size));
+
+Numbers[Plain and Point] Characters(String
+) Date
+B.alter: Modify or alter the structure of already created database table.
+
+a.add new columns
+b.modify data type or size
+c.rename the existing column names.
+d.drop or delete specfic column name.
+
+C.Rename:To rename the exisiting tablename.
+
+D.Drop 
+E.Truncate
+
+DML:Data Manipulation Language
+A.Insert:To store or insert the data or information in existing database table structure.
+Syntax:insert into tablename values(Value1,Value2,Value3,.....);
+4Ways of Inserting Data:
+----
+1.Insert all column values.
+2.Insert specfic column values.
+3.Insert values continuously.
+4.Insert same values continuously. 
+
+B.Select:To view or select the data.
+Syntax:select * from tablename;
+
+C.Update:To update the existing values in your database table.
+
+D.Delete
+
+
+Delete	Truncate	Drop 
+
+
+
+DCL:Data Control Language[SYSDBA]
+grant:Provide all privileges to user.
+SQL> grant all privileges to qt237;
+Grant succeeded.
+
+revoke:Cancel all privilege from user.
+SQL> revoke all privileges from qt237;
+Revoke succeeded.
+
+TCL:Transaction Control Language
+--------------------
+1.commit:
+2.rollback
+3.savepoint
+
+DDL:Yes C A R T D 
+DML:No I U D 
+
+Truncate and Drop: DDL 
+Delete: DML 
+
+DDL 
+DML 
+DCL 
+TCL 
+
+DataTypes in OracleDB:
+----------------------
+Alphabets:A to Z and  a to z
+Characters or String:SS[%^%&%^&] 
+mail:'Krish123@gmail.com'
+char: sname char(20); 20bytes:Krishna
+varchar: sname varchar(20); 20bytes 2k
+varchar2: sname varchar(20); 20bytes 4k 
+
+Digits:0 to 9 
+Plain Numbers:567 -6799 number
+Point Values:567.1232 number(P,S)
+percentage number(5,2);  99.9
+			P-S=5-2=3
+
+Date and Time:date 'dd/mmm/yy' '12/sep/26'
