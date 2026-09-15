@@ -1284,3 +1284,965 @@ SQL> select * from stu3;
        106 Lalitha
 
 SQL>
+================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Sep 15 09:18:46 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237;
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+
+SQL> create table test1(id number(3),name varchar2(10),dob date);
+
+Table created.
+
+SQL> desc test1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(10)
+ DOB                                                DATE
+
+SQL> insert into test1 values(101,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test1;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+
+SQL> insert into test1 values(101,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test1;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+       101 Krishna    10-JAN-88
+
+SQL> insert into test1 values(101,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> desc test1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(10)
+ DOB                                                DATE
+
+SQL> select * from test1;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+       101 Krishna    10-JAN-88
+       101 Krishna    10-JAN-88
+
+SQL> insert into test1(id,dob) values(102,'12/jan/88');
+
+1 row created.
+
+SQL> select * from test1;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+       101 Krishna    10-JAN-88
+       101 Krishna    10-JAN-88
+       102            12-JAN-88
+
+SQL> create table test2(id number(3) primary key,name varchar2(10),dob date);
+
+Table created.
+
+SQL> insert into test1 values(101,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test2;
+
+no rows selected
+
+SQL> insert into test2 values(101,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test2;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+
+SQL> commit;
+
+Commit complete.
+
+SQL> desc test2;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(3)
+ NAME                                               VARCHAR2(10)
+ DOB                                                DATE
+
+SQL> insert into test2 values(101,'Krishna','10/jan/88');
+insert into test2 values(101,'Krishna','10/jan/88')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT237.SYS_C007003) violated
+
+
+SQL> insert into test2 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test2;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       101 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+
+SQL> insert into test1(name,dob) values('egrerr','12/jan/88');
+
+1 row created.
+
+SQL> insert into test2(name,dob) values('egrerr','12/jan/88');
+insert into test2(name,dob) values('egrerr','12/jan/88')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("QT237"."TEST2"."ID")
+
+
+SQL> create table test3(id number(3) not null,name varchar2(10),dob date);
+
+Table created.
+
+SQL> insert into test3 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> insert into test3 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> insert into test3 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> create table test3(id number(3) not null,name varchar2(10),dob date);
+create table test3(id number(3) not null,name varchar2(10),dob date)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+SQL> insert into test3 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test3;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+
+SQL> insert into test3(name,dob) values('egrerr','12/jan/88');
+insert into test3(name,dob) values('egrerr','12/jan/88')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("QT237"."TEST3"."ID")
+
+
+SQL> create table test4(id number(3) unique,name varchar2(10),dob date);
+
+Table created.
+
+SQL> insert into test4 values(102,'Krishna','10/jan/88');
+
+1 row created.
+
+SQL> select * from test4;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+
+SQL> insert into test4 values(102,'Krishna','10/jan/88');
+insert into test4 values(102,'Krishna','10/jan/88')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT237.SYS_C007005) violated
+
+
+SQL> insert into test4(name,dob) values('egrerr','12/jan/88');
+
+1 row created.
+
+SQL> insert into test4(name,dob) values('egrerr','12/jan/88');
+
+1 row created.
+
+SQL> select * from test4;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+           egrerr     12-JAN-88
+           egrerr     12-JAN-88
+
+SQL> create table test5(id number(3) primary key,name varchar2(10),cfee number(5) default 5000);
+
+Table created.
+
+SQL> insert into test5(id,name) values(11,'KRishna');
+
+1 row created.
+
+SQL> insert into test5(id,name) values(12,'Ramesh');
+
+1 row created.
+
+SQL> select * from test5;
+
+        ID NAME             CFEE
+---------- ---------- ----------
+        11 KRishna          5000
+        12 Ramesh           5000
+
+SQL> create table test6(id number(3) primary key,name varchar2(10),cfee number(5) check(cfee>=5000));
+
+Table created.
+
+SQL> desc test6;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(3)
+ NAME                                               VARCHAR2(10)
+ CFEE                                               NUMBER(5)
+
+SQL> insert into test6 values(102,'Krishna',5000);
+
+1 row created.
+
+SQL> insert into test6 values(103,'Krishna',8000);
+
+1 row created.
+
+SQL> select * from test6;
+
+        ID NAME             CFEE
+---------- ---------- ----------
+       102 Krishna          5000
+       103 Krishna          8000
+
+SQL> insert into test6 values(103,'Krishna',4999);
+insert into test6 values(103,'Krishna',4999)
+*
+ERROR at line 1:
+ORA-02290: check constraint (QT237.SYS_C007007) violated
+
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'test6';
+
+no rows selected
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'test4';
+
+no rows selected
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'test5';
+
+no rows selected
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'test3';
+
+no rows selected
+
+SQL> SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = test3;
+SELECT CONSTRAINT_NAME, CONSTRAINT_TYPE FROM USER_CONSTRAINTS WHERE TABLE_NAME = test3
+                                                                                 *
+ERROR at line 1:
+ORA-00904: "TEST3": invalid identifier
+
+
+SQL>
+
+SQL> select * from test4;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+           egrerr     12-JAN-88
+           egrerr     12-JAN-88
+
+SQL> select 5+3 from test4;
+
+       5+3
+----------
+         8
+         8
+         8
+
+SQL> select * from dual;
+
+D
+-
+X
+
+SQL> select 5+3 from dual;
+
+       5+3
+----------
+         8
+
+SQL> select * from test3;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+       102 Krishna    10-JAN-88
+
+SQL> select * from test4;
+
+        ID NAME       DOB
+---------- ---------- ---------
+       102 Krishna    10-JAN-88
+           egrerr     12-JAN-88
+           egrerr     12-JAN-88
+
+SQL> select * from test5;
+
+        ID NAME             CFEE
+---------- ---------- ----------
+        11 KRishna          5000
+        12 Ramesh           5000
+
+SQL> select sum(cfee) from test5;
+
+ SUM(CFEE)
+----------
+     10000
+
+SQL> alter test5 add efee number(6);
+alter test5 add efee number(6)
+      *
+ERROR at line 1:
+ORA-00940: invalid ALTER command
+
+
+SQL> alter table test5 add efee number(6);
+
+Table altered.
+
+SQL> select sum(cfee) from test5;
+
+ SUM(CFEE)
+----------
+     10000
+
+SQL> select * from test5;
+
+        ID NAME             CFEE       EFEE
+---------- ---------- ---------- ----------
+        11 KRishna          5000
+        12 Ramesh           5000
+
+SQL> update test5 set efee=500 where id=11;
+
+1 row updated.
+
+SQL> update test5 set efee=800 where id=12;
+
+1 row updated.
+
+SQL> select * from test5;
+
+        ID NAME             CFEE       EFEE
+---------- ---------- ---------- ----------
+        11 KRishna          5000        500
+        12 Ramesh           5000        800
+
+SQL> alter table test5 add totalfee number(6);
+
+Table altered.
+
+SQL> select * from test5;
+
+        ID NAME             CFEE       EFEE   TOTALFEE
+---------- ---------- ---------- ---------- ----------
+        11 KRishna          5000        500
+        12 Ramesh           5000        800
+
+SQL> update test5 set totalfee=cfee+efee;
+
+2 rows updated.
+
+SQL> select * from test5;
+
+        ID NAME             CFEE       EFEE   TOTALFEE
+---------- ---------- ---------- ---------- ----------
+        11 KRishna          5000        500       5500
+        12 Ramesh           5000        800       5800
+
+SQL> select 5000+500 from dual;
+
+  5000+500
+----------
+      5500
+
+SQL> select 5000+500 from test5;
+
+  5000+500
+----------
+      5500
+      5500
+
+SQL> select 5000+500 as totalfee from test5;
+
+  TOTALFEE
+----------
+      5500
+      5500
+
+SQL> select 5000+500 as totalfee from dual;
+
+  TOTALFEE
+----------
+      5500
+
+SQL> select 5000+500-200 as totalfee from dual;
+
+  TOTALFEE
+----------
+      5300
+
+SQL> select 5000+500-200/2 as totalfee from dual;
+
+  TOTALFEE
+----------
+      5400
+
+SQL> select (5000+500-200)/2 as totalfee from dual;
+
+  TOTALFEE
+----------
+      2650
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> delete stu1 where htno=109;
+
+7 rows deleted.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 where marks>=75;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+
+SQL> select * from stu1 where marks>75;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+
+SQL> select * from stu1 where marks>=55;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       108 dfgdf              55 sdgsg
+
+SQL> select * from stu1 where marks>55;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+
+SQL> select * from stu1 where marks<75;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+SQL> select * from stu1 where marks<=75;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+SQL> select * from stu1 where marks==75;
+select * from stu1 where marks==75
+                               *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select * from stu1 where marks=75;
+
+no rows selected
+
+SQL> select * from stu1 where marks!=75;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+6 rows selected.
+
+SQL> select * from stu1 where marks!=55;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+
+SQL> select * from stu1 where marks<>55;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+
+SQL> select * from stu1 where marks>=90 and htno=105;
+
+no rows selected
+
+SQL> select * from stu1 where marks>=90 or htno=107;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       107 Mohan              45 Male
+
+SQL> select * from stu1;;
+select * from stu1;
+                  *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 where marks is not null;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+6 rows selected.
+
+SQL> select * from stu1 where gender is not null;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+7 rows selected.
+
+SQL> select * from stu1 where marks is not null and gender is not null;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 where marks is not null or gender is not null;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+7 rows selected.
+
+SQL> select * from stu1 like sname='L%';
+select * from stu1 like sname='L%'
+                   *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from stu1 where like sname='L%';
+select * from stu1 where like sname='L%'
+                         *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> select * from stu1 where sname like 'L%';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       106 Lalitha            88 gemakk
+
+SQL> select * from stu1 where sname like 'l%';
+
+no rows selected
+
+SQL> select * from stu1 where sname like '%l';
+
+no rows selected
+
+SQL> select * from stu1 where sname like '%';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 where sname like '%2';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       102 54522              99 Male
+       102 54522              99 Male
+
+SQL> select * from stu1 where sname like '5%';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       102 54522              99 Male
+       102 54522              99 Male
+
+SQL> select * from stu1 where sname like '1%';
+
+no rows selected
+
+SQL> select * from stu1 where htno like '1%';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 where htno like '%a%';
+
+no rows selected
+
+SQL> select * from stu1 where sname like '%a%';
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       104 Krishna
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+
+SQL> SELECT * FROM CUSTOMERS WHERE AGE marks in(55,99);
+SELECT * FROM CUSTOMERS WHERE AGE marks in(55,99)
+                                  *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> SELECT * FROM CUSTOMERS WHERE marks in(55,99);
+SELECT * FROM CUSTOMERS WHERE marks in(55,99)
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT * FROM stu1 WHERE marks in(55,99);
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       108 dfgdf              55 sdgsg
+
+SQL> SELECT * FROM stu1 WHERE marks in(55,90);
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       108 dfgdf              55 sdgsg
+
+SQL> SELECT * FROM stu1 WHERE marks between 55 and 90;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       106 Lalitha            88 gemakk
+       108 dfgdf              55 sdgsg
+
+SQL> SELECT htno FROM stu1 WHERE EXISTS (SELECT marks FROM stu1 WHERE marks >= 75);
+
+      HTNO
+----------
+       101
+       102
+       102
+       104
+       105
+       106
+       107
+       108
+
+8 rows selected.
+
+SQL> SELECT * FROM stu1 WHERE EXISTS (SELECT marks FROM stu1 WHERE marks >= 75);
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> SELECT marks FROM stu1 WHERE marks >= 75;
+
+     MARKS
+----------
+        99
+        99
+        99
+        88
+
+SQL> SELECT * FROM stu1 WHERE EXISTS (SELECT marks FROM stu1 WHERE marks >= 75);
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> SELECT * FROM stu1 WHERE EXISTS (SELECT marks FROM stu1 WHERE marks >= 175);
+
+no rows selected
+
+SQL> SELECT * FROM stu1 WHERE any (SELECT marks FROM stu1 WHERE marks >= 75);
+SELECT * FROM stu1 WHERE any (SELECT marks FROM stu1 WHERE marks >= 75)
+                         *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> SELECT * FROM stu1 WHERE marks>ALL (SELECT marks FROM stu1 WHERE marks >= 75);
+
+no rows selected
+
+SQL> SELECT marks FROM stu1 WHERE marks >= 75;
+
+     MARKS
+----------
+        99
+        99
+        99
+        88
+
+SQL> SELECT * FROM stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> SELECT * FROM stu1 WHERE marks>ALL (SELECT marks FROM stu1 WHERE marks >= 75);
+
+no rows selected
+
+SQL> SELECT * FROM stu1 WHERE marks>ANY (SELECT marks FROM stu1 WHERE marks >= 75);
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
