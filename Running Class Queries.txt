@@ -2246,3 +2246,936 @@ SQL> SELECT * FROM stu1 WHERE marks>ANY (SELECT marks FROM stu1 WHERE marks >= 7
        101 Ramu               99 Male
        102 54522              99 Male
        102 54522              99 Male
+=======================
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Sep 16 09:10:56 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+TEST6                          TABLE
+
+9 rows selected.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 asc;
+select * from stu1 asc
+                   *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended
+
+
+SQL> select * from stu1 where sname asc;
+select * from stu1 where sname asc
+                               *
+ERROR at line 1:
+ORA-00920: invalid relational operator
+
+
+SQL> select * from stu1 order by sname;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       105 QT                    Female
+       101 Ramu               99 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 order by sname asc;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       105 QT                    Female
+       101 Ramu               99 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 order by gender asc;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       105 QT                    Female
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       107 Mohan              45 Male
+       106 Lalitha            88 gemakk
+       108 dfgdf              55 sdgsg
+       104 Krishna
+
+8 rows selected.
+
+SQL> select * from stu1 order by htno asc;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stu1 order by htno desc;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       108 dfgdf              55 sdgsg
+       107 Mohan              45 Male
+       106 Lalitha            88 gemakk
+       105 QT                    Female
+       104 Krishna
+       102 54522              99 Male
+       102 54522              99 Male
+       101 Ramu               99 Male
+
+8 rows selected.
+
+SQL> select sum(marks) from stu1;
+
+SUM(MARKS)
+----------
+       485
+
+SQL> select sname,sum(marks) from stu1;
+select sname,sum(marks) from stu1
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function
+
+
+SQL> select sum(marks) from stu1;
+
+SUM(MARKS)
+----------
+       485
+
+SQL> select max(marks) from stu1;
+
+MAX(MARKS)
+----------
+        99
+
+SQL> select min(marks) from stu1;
+
+MIN(MARKS)
+----------
+        45
+
+SQL> select avg(marks) from stu1;
+
+AVG(MARKS)
+----------
+80.8333333
+
+SQL> select count(*) from stu1;
+
+  COUNT(*)
+----------
+         8
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select count(marks) from stu1;
+
+COUNT(MARKS)
+------------
+           6
+
+SQL> select count(distinct marks) from stu1;
+
+COUNT(DISTINCTMARKS)
+--------------------
+                   4
+
+SQL> select upper('ancdefgh') from dual;
+
+UPPER('A
+--------
+ANCDEFGH
+
+SQL> select upper('abcdefgh') from dual;
+
+UPPER('A
+--------
+ABCDEFGH
+
+SQL> select upper(sname) from stu1;
+
+UPPER(SNAM
+----------
+RAMU
+54522
+54522
+KRISHNA
+QT
+LALITHA
+MOHAN
+DFGDF
+
+8 rows selected.
+
+SQL> select sname,upper(sname) from stu1;
+
+SNAME      UPPER(SNAM
+---------- ----------
+Ramu       RAMU
+54522      54522
+54522      54522
+Krishna    KRISHNA
+QT         QT
+Lalitha    LALITHA
+Mohan      MOHAN
+dfgdf      DFGDF
+
+8 rows selected.
+
+SQL> select lower('FJERFJEF') from dual;
+
+LOWER('F
+--------
+fjerfjef
+
+SQL> select sname,LOWER(sname) from stu1;
+
+SNAME      LOWER(SNAM
+---------- ----------
+Ramu       ramu
+54522      54522
+54522      54522
+Krishna    krishna
+QT         qt
+Lalitha    lalitha
+Mohan      mohan
+dfgdf      dfgdf
+
+8 rows selected.
+
+SQL> select lower('FJERFJEF') from stu1;
+
+LOWER('F
+--------
+fjerfjef
+fjerfjef
+fjerfjef
+fjerfjef
+fjerfjef
+fjerfjef
+fjerfjef
+fjerfjef
+
+8 rows selected.
+
+SQL> select lower('FJERFJEF') from dual;
+
+LOWER('F
+--------
+fjerfjef
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> update stu1 set sname='prakash' where id=102;
+update stu1 set sname='prakash' where id=102
+                                      *
+ERROR at line 1:
+ORA-00904: "ID": invalid identifier
+
+
+SQL> update stu1 set sname='prakash' where htno=102;
+
+2 rows updated.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select initcap('FJERFJEF') from dual;
+
+INITCAP(
+--------
+Fjerfjef
+
+SQL> select initcap('aBCDEFGH') from dual;
+
+INITCAP(
+--------
+Abcdefgh
+
+SQL> select initcap(SNAME) from stu1;
+
+INITCAP(SN
+----------
+Ramu
+Prakash
+Prakash
+Krishna
+Qt
+Lalitha
+Mohan
+Dfgdf
+
+8 rows selected.
+
+SQL> select initcap('aBCD EFGH') from dual;
+
+INITCAP('
+---------
+Abcd Efgh
+
+SQL> select length('aBCDEFGH') from dual;
+
+LENGTH('ABCDEFGH')
+------------------
+                 8
+
+SQL> select length('aBCD EFG H') from dual;
+
+LENGTH('ABCDEFGH')
+------------------
+                10
+
+SQL> select length(sname) from stu1;
+
+LENGTH(SNAME)
+-------------
+            4
+            7
+            7
+            7
+            2
+            7
+            5
+            5
+
+8 rows selected.
+
+SQL> SELECT REPLACE('Hello World', 'Hello', 'Hi') AS Result FROM dual;
+
+RESULT
+--------
+Hi World
+
+SQL> SELECT REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+
+RESULT
+--------------------------------------------------------------------------------
+Ramu
+prakash
+prakash
+Rama Rao
+QT
+Lalitha
+Mohan
+dfgdf
+
+8 rows selected.
+
+SQL> SELECT sname REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+SELECT sname REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1
+                    *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT sname, REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+
+SNAME
+----------
+RESULT
+--------------------------------------------------------------------------------
+Ramu
+Ramu
+
+prakash
+prakash
+
+prakash
+prakash
+
+
+SNAME
+----------
+RESULT
+--------------------------------------------------------------------------------
+Krishna
+Rama Rao
+
+QT
+QT
+
+Lalitha
+Lalitha
+
+
+SNAME
+----------
+RESULT
+--------------------------------------------------------------------------------
+Mohan
+Mohan
+
+dfgdf
+dfgdf
+
+
+8 rows selected.
+
+SQL> SELECT sname REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+SELECT sname REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1
+                    *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT * REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+SELECT * REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> SELECT REPLACE(sname, 'Krishna', 'Rama Rao') AS Result FROM stu1;
+
+RESULT
+--------------------------------------------------------------------------------
+Ramu
+prakash
+prakash
+Rama Rao
+QT
+Lalitha
+Mohan
+dfgdf
+
+8 rows selected.
+
+SQL> select LPAD('oracle',10,'z') from dual;
+
+LPAD('ORAC
+----------
+zzzzoracle
+
+SQL> select RPAD('oracle',10,'z') from dual;
+
+RPAD('ORAC
+----------
+oraclezzzz
+
+SQL> Select RTRIM('ZORACLEZZZ','Z') from dual;
+
+RTRIM('
+-------
+ZORACLE
+
+SQL> Select RTRIM('ZZZORACLEZZZ','Z') from dual;
+
+RTRIM('ZZ
+---------
+ZZZORACLE
+
+SQL> Select LTRIM('ZZZORACLEZZZ','Z') from dual;
+
+LTRIM('ZZ
+---------
+ORACLEZZZ
+
+SQL> Select TRIM('ZZZORACLEZZZ','Z') from dual;
+Select TRIM('ZZZORACLEZZZ','Z') from dual
+                          *
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> Select TRIM('Z' from 'ZZZoracleZZZ' ) from dual;
+
+TRIM('
+------
+oracle
+
+SQL> SELECT INSTR('Hello World', 'Wo') AS position FROM dual;
+
+  POSITION
+----------
+         7
+
+SQL> SELECT INSTR('Hello World', 'o') AS position FROM dual;
+
+  POSITION
+----------
+         5
+
+SQL> SELECT INSTR('Hello World', 'rld') AS position FROM dual;
+
+  POSITION
+----------
+         9
+
+SQL> Select SUBSTR('ORACLE',2,3) from dual;
+
+SUB
+---
+RAC
+
+SQL> Select SUBSTR('ORACLE',4,2) from dual;
+
+SU
+--
+CL
+
+SQL> SELECT CONCAT('Hello', 'World') AS concatenated_string FROM dual;
+
+CONCATENAT
+----------
+HelloWorld
+
+SQL> SELECT CONCAT('Hello', ' World') AS concatenated_string FROM dual;
+
+CONCATENATE
+-----------
+Hello World
+
+SQL> SELECT TRANSLATE('abcdefgh', 'ae', '12') FROM dual;
+
+TRANSLAT
+--------
+1bcd2fgh
+
+SQL> SELECT TRANSLATE('abadefah', 'ae', '12') FROM dual;
+
+TRANSLAT
+--------
+1b1d2f1h
+
+SQL> SELECT TRANSLATE('ahbadhefah', 'aeh', '125') FROM dual;
+
+TRANSLATE(
+----------
+15b1d52f15
+
+SQL> SELECT ASCII('abcdefgh) FROM dual;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> SELECT ASCII('abcdefgh') FROM dual;
+
+ASCII('ABCDEFGH')
+-----------------
+               97
+
+SQL> SELECT ASCII('b') FROM dual;
+
+ASCII('B')
+----------
+        98
+
+SQL> SELECT ASCII('A') FROM dual;
+
+ASCII('A')
+----------
+        65
+
+SQL> SELECT ASCII('#') FROM dual;
+
+ASCII('#')
+----------
+        35
+
+SQL> SELECT ASCII('@') FROM dual;
+
+ASCII('@')
+----------
+        64
+
+SQL> SELECT ABS(-10) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+            10
+
+SQL> SELECT ABS(10) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+            10
+
+SQL> SELECT ABS(-10.234) AS absolute_value FROM dual;
+
+ABSOLUTE_VALUE
+--------------
+        10.234
+
+SQL> SELECT SQRT(16) FROM dual;
+
+  SQRT(16)
+----------
+         4
+
+SQL> SELECT SQRT(25) FROM dual;
+
+  SQRT(25)
+----------
+         5
+
+SQL> SELECT SQRT(625) FROM dual;
+
+ SQRT(625)
+----------
+        25
+
+SQL> select MOD(10,3) from dual;
+
+ MOD(10,3)
+----------
+         1
+
+SQL> select MOD(10,2) from dual;
+
+ MOD(10,2)
+----------
+         0
+
+SQL> Select POWER(2,5) from dual;
+
+POWER(2,5)
+----------
+        32
+
+SQL> Select CEIL(40.9) from dual;
+
+CEIL(40.9)
+----------
+        41
+
+SQL> Select CEIL(40.2) from dual;
+
+CEIL(40.2)
+----------
+        41
+
+SQL> Select FLOOR(40.9) from dual;
+
+FLOOR(40.9)
+-----------
+         40
+
+SQL> Select ROUND(40.9) from dual;
+
+ROUND(40.9)
+-----------
+         41
+
+SQL> Select ROUND(40.4) from dual;
+
+ROUND(40.4)
+-----------
+         40
+
+SQL> Select ROUND(40.5) from dual;
+
+ROUND(40.5)
+-----------
+         41
+
+SQL> Select TRUNC(40.4569) from dual;
+
+TRUNC(40.4569)
+--------------
+            40
+
+SQL> Select GREATEST (100,200,300) from dual;
+
+GREATEST(100,200,300)
+---------------------
+                  300
+
+SQL> Select GREATEST (100,2000,300) from dual;
+
+GREATEST(100,2000,300)
+----------------------
+                  2000
+
+SQL> Select LEAST (100,2000,300) from dual;
+
+LEAST(100,2000,300)
+-------------------
+                100
+
+SQL> SELECT SIGN(7) AS sign_value FROM dual;
+
+SIGN_VALUE
+----------
+         1
+
+SQL> SELECT SIGN(-7) AS sign_value FROM dual;
+
+SIGN_VALUE
+----------
+        -1
+
+SQL> SELECT SIGN(0) AS sign_value FROM dual;
+
+SIGN_VALUE
+----------
+         0
+
+SQL> SELECT SIGN(10) AS result1, SIGN(0) AS result2, SIGN(-5) AS result3 FROM dual;
+
+   RESULT1    RESULT2    RESULT3
+---------- ---------- ----------
+         1          0         -1
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+16-SEP-26
+
+SQL> select current_date from dual;
+
+CURRENT_D
+---------
+16-SEP-26
+
+SQL> select systimestamp from dual;
+
+SYSTIMESTAMP
+---------------------------------------------------------------------------
+16-SEP-26 10.07.59.836000 AM +05:30
+
+SQL> select current_timestamp from dual;
+
+CURRENT_TIMESTAMP
+---------------------------------------------------------------------------
+16-SEP-26 10.08.49.674000 AM +05:30
+
+SQL> Select NEXT_DAY(SYSDATE,'MONDAY') from dual;
+
+NEXT_DAY(
+---------
+21-SEP-26
+
+SQL> Select NEXT_DAY('01/oct/26','MONDAY') from dual;
+
+NEXT_DAY(
+---------
+05-OCT-26
+
+SQL> Select LAST_DAY(SYSDATE) from dual;
+
+LAST_DAY(
+---------
+30-SEP-26
+
+SQL> Select LAST_DAY('01/feb/26;) from dual;
+ERROR:
+ORA-01756: quoted string not properly terminated
+
+
+SQL> Select LAST_DAY('01/feb/26') from dual;
+
+LAST_DAY(
+---------
+28-FEB-26
+
+SQL>
+SQL> SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD') FROM dual;
+
+TO_CHAR(SY
+----------
+2026-09-16
+
+SQL> select sysdate from dual;
+
+SYSDATE
+---------
+16-SEP-26
+
+SQL> SELECT TO_CHAR(SYSDATE, 'DD-MM-YYYY') FROM dual;
+
+TO_CHAR(SY
+----------
+16-09-2026
+
+SQL> SELECT TO_CHAR(SYSDATE, 'Day: MONTH, DD, YYYY') FROM dual;
+
+TO_CHAR(SYSDATE,'DAY:MONTH,DD,YYYY')
+--------------------------------------------------------------------------------
+Wednesday: SEPTEMBER, 16, 2026
+
+SQL>
+
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select htno,marks where marks>=80;
+select htno,marks where marks>=80
+                  *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> select htno,marks from stu1 where marks>=80;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> create table stuspe as htno,marks from stu1 where marks>=80;
+create table stuspe as htno,marks from stu1 where marks>=80
+                       *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> create table stuspe as select  htno,marks from stu1 where marks>=80;
+
+Table created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUSPE                         TABLE
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+TEST6                          TABLE
+
+10 rows selected.
+
+SQL>
+SQL> select * from stuspe;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL>
+SQL> create view stuv1 as select htno,marks where marks>=80;
+create view stuv1 as select htno,marks where marks>=80
+                                       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> create view stuv1 as select htno,marks from stu1 where marks>=80;
+
+View created.
+
+SQL> select * from stuv1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL>
