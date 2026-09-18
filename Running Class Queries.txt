@@ -3179,3 +3179,498 @@ SQL> select * from stuv1;
        106         88
 
 SQL>
+================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Sep 18 10:14:57 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select htno,marks from stu1 where marks>=80;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> create table stunew1 as select htno,marks where marks>=80;
+create table stunew1 as select htno,marks where marks>=80
+                                          *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected
+
+
+SQL> create table stunew1 select htno,marks where marks>=80;
+create table stunew1 select htno,marks where marks>=80
+                     *
+ERROR at line 1:
+ORA-00922: missing or invalid option
+
+
+SQL> create table stunew1 as select htno,marks from stu1 where marks>=80;
+
+Table created.
+
+SQL> select * from stunew1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUNEW1                        TABLE
+STUSPE                         TABLE
+STUV1                          VIEW
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+TEST6                          TABLE
+
+12 rows selected.
+
+SQL> create view stuview1 as select htno,marks from stu1 where marks>=80;
+
+View created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUNEW1                        TABLE
+STUSPE                         TABLE
+STUV1                          VIEW
+STUVIEW1                       VIEW
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+TEST5                          TABLE
+TEST6                          TABLE
+
+13 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+
+8 rows selected.
+
+SQL> select * from stunew1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> select * from stuview1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> insert into stu1 values(109,'Suman',100,'Male');
+insert into stu1 values(109,'Suman',100,'Male')
+                                    *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into stu1 values(109,'Suman',95,'Male');
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+
+9 rows selected.
+
+SQL> select * from stunew1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> select * from stuview1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+       109         95
+
+SQL> insert into stuview1 values(110,'Suman',93,'Male');
+insert into stuview1 values(110,'Suman',93,'Male')
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into stuview1 values(110,93);
+
+1 row created.
+
+SQL> select * from stuview1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+       109         95
+       110         93
+
+6 rows selected.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       110                    93
+
+10 rows selected.
+
+SQL> select * from stunew1;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       110                    93
+
+10 rows selected.
+
+SQL> select * from test6;
+
+        ID NAME             CFEE
+---------- ---------- ----------
+       102 Krishna          5000
+       103 Krishna          8000
+
+SQL> create view compview as select htno,sname,marks,id,name from stu1,test6;
+
+View created.
+
+SQL> select * from compview;
+
+      HTNO SNAME           MARKS         ID NAME
+---------- ---------- ---------- ---------- ----------
+       101 Ramu               99        102 Krishna
+       102 prakash            99        102 Krishna
+       102 prakash            99        102 Krishna
+       104 Krishna                      102 Krishna
+       105 QT                           102 Krishna
+       106 Lalitha            88        102 Krishna
+       107 Mohan              45        102 Krishna
+       108 dfgdf              55        102 Krishna
+       109 Suman              95        102 Krishna
+       110                    93        102 Krishna
+       101 Ramu               99        103 Krishna
+
+      HTNO SNAME           MARKS         ID NAME
+---------- ---------- ---------- ---------- ----------
+       102 prakash            99        103 Krishna
+       102 prakash            99        103 Krishna
+       104 Krishna                      103 Krishna
+       105 QT                           103 Krishna
+       106 Lalitha            88        103 Krishna
+       107 Mohan              45        103 Krishna
+       108 dfgdf              55        103 Krishna
+       109 Suman              95        103 Krishna
+       110                    93        103 Krishna
+
+20 rows selected.
+
+SQL> create view stureadview as select htno,marks from stu1 where marks>=80 with read only;
+
+View created.
+
+SQL> select * from stureadview;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+       109         95
+       110         93
+
+6 rows selected.
+
+SQL> insert into stu1 values(120,'Suman',94,'Male');
+
+1 row created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       110                    93
+       120 Suman              94 Male
+
+11 rows selected.
+
+SQL> select * from stureadview;
+
+      HTNO      MARKS
+---------- ----------
+       101         99
+       102         99
+       102         99
+       106         88
+       109         95
+       110         93
+       120         94
+
+7 rows selected.
+
+SQL> insert into stureadview values(120,94);
+insert into stureadview values(120,94)
+*
+ERROR at line 1:
+ORA-42399: cannot perform a DML operation on a read-only view
+
+
+SQL> create view checkview as select htno,marks from stu1 where marks<=89 with check option;
+
+View created.
+
+SQL> insert into checkview values(125,94);
+insert into checkview values(125,94)
+            *
+ERROR at line 1:
+ORA-01402: view WITH CHECK OPTION where-clause violation
+
+
+SQL> insert into checkview values(125,84);
+
+1 row created.
+
+SQL> Create materialized view stumv1 As select htno,sname,marks from stu1;
+
+Materialized view created.
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CHECKVIEW                      VIEW
+COMPVIEW                       VIEW
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUMV1                         TABLE
+STUNEW1                        TABLE
+STUREADVIEW                    VIEW
+STUSPE                         TABLE
+STUV1                          VIEW
+STUVIEW1                       VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+TEST6                          TABLE
+
+17 rows selected.
+
+SQL> select * from stumv1;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 prakash            99
+       102 prakash            99
+       104 Krishna
+       105 QT
+       106 Lalitha            88
+       107 Mohan              45
+       108 dfgdf              55
+       109 Suman              95
+       110                    93
+       120 Suman              94
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       125                    84
+
+12 rows selected.
+
+SQL> delete stu1 where htno=110;
+
+1 row deleted.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       120 Suman              94 Male
+       125                    84
+
+11 rows selected.
+
+SQL> select * from stumv1;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 prakash            99
+       102 prakash            99
+       104 Krishna
+       105 QT
+       106 Lalitha            88
+       107 Mohan              45
+       108 dfgdf              55
+       109 Suman              95
+       110                    93
+       120 Suman              94
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       125                    84
+
+12 rows selected.
+
+SQL> EXEC DBMS_MVIEW.REFRESH('stumv1');
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from stumv1;
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 prakash            99
+       102 prakash            99
+       104 Krishna
+       105 QT
+       106 Lalitha            88
+       107 Mohan              45
+       108 dfgdf              55
+       109 Suman              95
+       120 Suman              94
+       125                    84
+
+11 rows selected.
+
+SQL>
