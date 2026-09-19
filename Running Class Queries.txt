@@ -3674,3 +3674,402 @@ SQL> select * from stumv1;
 11 rows selected.
 
 SQL>
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Sat Sep 19 09:18:41 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> create table cust1(cid number(8) primary key,cname varchar2(10) not null,prodid number(5) unique,prodname varchar(15));
+
+Table created.
+
+SQL> desc cust1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CID                                       NOT NULL NUMBER(8)
+ CNAME                                     NOT NULL VARCHAR2(10)
+ PRODID                                             NUMBER(5)
+ PRODNAME                                           VARCHAR2(15)
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007008                    TEST6
+SYS_C007006                    TEST5
+SYS_C007005                    TEST4
+SYS_C007003                    TEST2
+SYS_C007026                    CUST1
+SYS_C007027                    CUST1
+
+6 rows selected.
+
+SQL> create index custidx1 on cust1(cid);
+create index custidx1 on cust1(cid)
+                               *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> create index custidx1 on cust1(prodid);
+create index custidx1 on cust1(prodid)
+                               *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> create index custidx1 on cust1(prodname);
+
+Index created.
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007008                    TEST6
+SYS_C007006                    TEST5
+SYS_C007005                    TEST4
+SYS_C007003                    TEST2
+SYS_C007026                    CUST1
+SYS_C007027                    CUST1
+CUSTIDX1                       CUST1
+
+7 rows selected.
+
+SQL> create index custidx2 on cust1(prodname);
+create index custidx2 on cust1(prodname)
+                               *
+ERROR at line 1:
+ORA-01408: such column list already indexed
+
+
+SQL> drop index custidx1;
+
+Index dropped.
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007008                    TEST6
+SYS_C007006                    TEST5
+SYS_C007005                    TEST4
+SYS_C007003                    TEST2
+SYS_C007026                    CUST1
+SYS_C007027                    CUST1
+
+6 rows selected.
+
+SQL> CREATE UNIQUE INDEX custidxunique1 ON cust1(prodname);
+
+Index created.
+
+SQL> insert into cust1(prodname) values('AC');
+insert into cust1(prodname) values('AC')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("QT237"."CUST1"."CID")
+
+
+SQL> insert into cust1 values(101,'Krishna',11'AC');
+insert into cust1 values(101,'Krishna',11'AC')
+                                         *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into cust1 values(101,'Krishna',11,'AC');
+
+1 row created.
+
+SQL> select * from cust1;
+
+       CID CNAME          PRODID PRODNAME
+---------- ---------- ---------- ---------------
+       101 Krishna            11 AC
+
+SQL> select index_name, table_name from user_indexes;
+
+INDEX_NAME                     TABLE_NAME
+------------------------------ ------------------------------
+SYS_C007008                    TEST6
+SYS_C007006                    TEST5
+SYS_C007005                    TEST4
+SYS_C007003                    TEST2
+SYS_C007026                    CUST1
+SYS_C007027                    CUST1
+CUSTIDXUNIQUE1                 CUST1
+
+7 rows selected.
+
+SQL> insert into cust1 values(102,'Krishna',12,'AC');
+insert into cust1 values(102,'Krishna',12,'AC')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (QT237.CUSTIDXUNIQUE1) violated
+
+
+SQL> select * from stu2;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 54522              99 Male
+       102 54522              99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+       109 Suresh             66 Male
+
+15 rows selected.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CHECKVIEW                      VIEW
+COMPVIEW                       VIEW
+CUST1                          TABLE
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUMV1                         TABLE
+STUNEW1                        TABLE
+STUREADVIEW                    VIEW
+STUSPE                         TABLE
+STUV1                          VIEW
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUVIEW1                       VIEW
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+TEST6                          TABLE
+
+18 rows selected.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> create table emp1 (eid number(3),ename varchar2(10),salary number(5));
+
+Table created.
+
+SQL> insert into emp1 values(101,'Krishna'55000);
+insert into emp1 values(101,'Krishna'55000)
+                                     *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into emp1 values(101,'Krishna',55000);
+
+1 row created.
+
+SQL> insert into emp1 values(103,'Shyam',15000);
+
+1 row created.
+
+SQL> insert into emp1 values(106,'Lalitha',25000);
+
+1 row created.
+
+SQL> select * from emp1
+  2  ;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Krishna         55000
+       103 Shyam           15000
+       106 Lalitha         25000
+
+SQL> update emp1 set ename='Ramu' where eid=101;
+
+1 row updated.
+
+SQL> select * from emp1;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+
+SQL> insert into emp1 values(109,'Murali',35000);
+
+1 row created.
+
+SQL> select * from emp1;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       102 54522
+       102 54522
+       106 Lalitha
+
+SQL> delete stu3 where htno=102;
+
+2 rows deleted.
+
+SQL> insert into stu3 values(102,'Suman');
+
+1 row created.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       106 Lalitha
+       102 Suman
+
+SQL> select * from emp1;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+
+SQL> select htno,sname,eid,ename,salary from stu3 inner join emp1 on htno=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           106 Lalitha         25000
+
+SQL> select htno,sname,eid,ename,salary from stu3 inner join emp1 on htno!=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       106 Lalitha           101 Ramu            55000
+       102 Suman             101 Ramu            55000
+       101 Ramu              103 Shyam           15000
+       106 Lalitha           103 Shyam           15000
+       102 Suman             103 Shyam           15000
+       101 Ramu              106 Lalitha         25000
+       102 Suman             106 Lalitha         25000
+       101 Ramu              109 Murali          35000
+       106 Lalitha           109 Murali          35000
+       102 Suman             109 Murali          35000
+
+10 rows selected.
+
+SQL> select * from stu3;
+
+      HTNO SNAME
+---------- ----------
+       101 Ramu
+       106 Lalitha
+       102 Suman
+
+SQL> select * from emp1;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+
+SQL> select htno,sname,eid,ename,salary from stu3 left join emp1 on htno=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           106 Lalitha         25000
+       102 Suman
+
+SQL> select htno,sname,eid,ename,salary from stu3 right join emp1 on htno=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           106 Lalitha         25000
+                             103 Shyam           15000
+                             109 Murali          35000
+
+SQL> select htno,sname,eid,ename,salary from stu3 join emp1 on htno=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           106 Lalitha         25000
+
+SQL> select htno,sname,eid,ename,salary from stu3 full join emp1 on htno=eid;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           106 Lalitha         25000
+       102 Suman
+                             103 Shyam           15000
+                             109 Murali          35000
+
+SQL> select htno,sname,eid,ename,salary from stu3 cross join emp1;
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       101 Ramu              101 Ramu            55000
+       106 Lalitha           101 Ramu            55000
+       102 Suman             101 Ramu            55000
+       101 Ramu              103 Shyam           15000
+       106 Lalitha           103 Shyam           15000
+       102 Suman             103 Shyam           15000
+       101 Ramu              106 Lalitha         25000
+       106 Lalitha           106 Lalitha         25000
+       102 Suman             106 Lalitha         25000
+       101 Ramu              109 Murali          35000
+       106 Lalitha           109 Murali          35000
+
+      HTNO SNAME             EID ENAME          SALARY
+---------- ---------- ---------- ---------- ----------
+       102 Suman             109 Murali          35000
+
+12 rows selected.
+
+SQL>
