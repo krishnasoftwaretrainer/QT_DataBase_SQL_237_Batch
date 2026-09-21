@@ -4073,3 +4073,523 @@ SQL> select htno,sname,eid,ename,salary from stu3 cross join emp1;
 12 rows selected.
 
 SQL>
+=====================================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Sep 21 09:13:58 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna
+       105 QT                    Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       120 Suman              94 Male
+       125                    84
+
+11 rows selected.
+
+SQL> delete stu1 where htno=125;
+
+1 row deleted.
+
+SQL> update stu1 set marks=67,gender='Male' where htno=104;
+
+1 row updated.
+
+SQL> update stu1 set marks=54 where htno=105;
+
+1 row updated.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna            67 Male
+       105 QT                 54 Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       120 Suman              94 Male
+
+10 rows selected.
+
+SQL> SELECT * FROM stu1 WHERE htno IN (SELECT htno FROM stu1 WHERE marks > 60) ;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna            67 Male
+       106 Lalitha            88 gemakk
+       109 Suman              95 Male
+       120 Suman              94 Male
+
+7 rows selected.
+
+SQL> SELECT htno FROM stu1 WHERE marks > 60;
+
+      HTNO
+----------
+       101
+       102
+       102
+       104
+       106
+       109
+       120
+
+7 rows selected.
+
+SQL> SELECT htno,sname,marks FROM stu1 WHERE htno IN (SELECT htno FROM stu1 WHERE marks >= 60) and sname IN (SELECT sname FROM student WHERE gender='Male');
+SELECT htno,sname,marks FROM stu1 WHERE htno IN (SELECT htno FROM stu1 WHERE marks >= 60) and sname IN (SELECT sname FROM student WHERE gender='Male')
+                                                                                                                          *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT htno,sname,marks FROM stu1 WHERE htno IN (SELECT htno FROM stu1 WHERE marks >= 60) and sname IN (SELECT sname FROM stu1 WHERE gender='Male');
+
+      HTNO SNAME           MARKS
+---------- ---------- ----------
+       101 Ramu               99
+       102 prakash            99
+       102 prakash            99
+       104 Krishna            67
+       120 Suman              94
+       109 Suman              95
+
+6 rows selected.
+
+SQL> SELECT htno FROM stu1 WHERE marks >= 60;
+
+      HTNO
+----------
+       101
+       102
+       102
+       104
+       106
+       109
+       120
+
+7 rows selected.
+
+SQL> SELECT sname FROM stu1 WHERE gender='Male';
+
+SNAME
+----------
+Ramu
+prakash
+prakash
+Krishna
+Mohan
+Suman
+Suman
+
+7 rows selected.
+
+SQL> create table seq as select * from stu1 where marks<=20;
+
+Table created.
+
+SQL> select * from seq;
+
+no rows selected
+
+SQL> desc seq;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ HTNO                                               NUMBER(3)
+ SNAME                                              VARCHAR2(10)
+ MARKS                                              NUMBER(2)
+ GENDER                                             VARCHAR2(10)
+
+SQL> CREATE SEQUENCE seq_htno START WITH 101 INCREMENT BY 1;
+
+Sequence created.
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'John',80,'Male');
+
+1 row created.
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Mohan',90,'Male');
+
+1 row created.
+
+SQL> select * from seq;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 John               80 Male
+       102 Mohan              90 Male
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Krishna',60,'Male');
+
+1 row created.
+
+SQL> select * from seq;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 John               80 Male
+       102 Mohan              90 Male
+       103 Krishna            60 Male
+
+SQL> SELECT seq_htno.CURRVAL FROM DUAL;
+
+   CURRVAL
+----------
+       103
+
+SQL> ALTER SEQUENCE seq_htno INCREMENT BY 3 MAXVALUE 10;
+ALTER SEQUENCE seq_htno INCREMENT BY 3 MAXVALUE 10
+*
+ERROR at line 1:
+ORA-04009: MAXVALUE cannot be made to be less than the current value
+
+
+SQL> ALTER SEQUENCE seq_htno INCREMENT BY 3 MAXVALUE 110;
+
+Sequence altered.
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Suresh',40,'Male');
+
+1 row created.
+
+SQL> SELECT seq_htno.CURRVAL FROM DUAL;
+
+   CURRVAL
+----------
+       106
+
+SQL> select * from seq;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 John               80 Male
+       102 Mohan              90 Male
+       103 Krishna            60 Male
+       106 Suresh             40 Male
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Krishna',60,'Male');
+
+1 row created.
+
+SQL> select * from seq;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 John               80 Male
+       102 Mohan              90 Male
+       103 Krishna            60 Male
+       106 Suresh             40 Male
+       109 Krishna            60 Male
+
+SQL> INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Mohan',90,'Male');
+INSERT INTO seq (htno, sname,marks,gender) VALUES (seq_htno.NEXTVAL,'Mohan',90,'Male')
+                                                   *
+ERROR at line 1:
+ORA-08004: sequence SEQ_HTNO.NEXTVAL exceeds MAXVALUE and cannot be
+instantiated
+
+
+SQL> SELECT sequence_name FROM user_sequences;
+
+SEQUENCE_NAME
+------------------------------
+SEQ_HTNO
+
+SQL> select * from seq;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 John               80 Male
+       102 Mohan              90 Male
+       103 Krishna            60 Male
+       106 Suresh             40 Male
+       109 Krishna            60 Male
+
+SQL> select htno as id,sname as name from seq;
+
+        ID NAME
+---------- ----------
+       101 John
+       102 Mohan
+       103 Krishna
+       106 Suresh
+       109 Krishna
+
+SQL> select htno as hallticket_number,sname as student_name from seq;
+
+HALLTICKET_NUMBER STUDENT_NA
+----------------- ----------
+              101 John
+              102 Mohan
+              103 Krishna
+              106 Suresh
+              109 Krishna
+
+SQL> select synonym_name from user_synonyms;
+
+no rows selected
+
+SQL> CREATE SYNONYM student11 FOR stu1;
+
+Synonym created.
+
+SQL> select * from stu1;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna            67 Male
+       105 QT                 54 Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       120 Suman              94 Male
+
+10 rows selected.
+
+SQL> select * from student11;
+
+      HTNO SNAME           MARKS GENDER
+---------- ---------- ---------- ----------
+       101 Ramu               99 Male
+       102 prakash            99 Male
+       102 prakash            99 Male
+       104 Krishna            67 Male
+       105 QT                 54 Female
+       106 Lalitha            88 gemakk
+       107 Mohan              45 Male
+       108 dfgdf              55 sdgsg
+       109 Suman              95 Male
+       120 Suman              94 Male
+
+10 rows selected.
+
+SQL> select synonym_name from user_synonyms;
+
+SYNONYM_NAME
+------------------------------
+STUDENT11
+
+SQL> drop synonym student11;
+
+Synonym dropped.
+
+SQL> select * from student11;
+select * from student11
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL>
+--------------------------------
+
+SQL> connet qt237
+SP2-0734: unknown command beginning "connet qt2..." - rest of line ignored.
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> create table ss1(id number(3),name char(10));
+
+Table created.
+
+SQL> desc ss1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               CHAR(10)
+
+SQL> insert into ss1 values(1,'QT');
+
+1 row created.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+
+SQL> insert into ss1 values(3,'kamesh');
+
+1 row created.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+         3 kamesh
+
+SQL> update ss1 set name='Ramesh';
+
+3 rows updated.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 Ramesh
+         2 Ramesh
+         3 Ramesh
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 Ramesh
+         2 Ramesh
+         3 Ramesh
+
+SQL> update ss1 set name='Ramesh' where id=3;
+
+1 row updated.
+
+SQL> update ss1 set name='Krishna' where id=2;
+
+1 row updated.
+
+SQL> update ss1 set name='QT' where id=1;
+
+1 row updated.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+         3 Ramesh
+
+SQL> commit;
+
+Commit complete.
+
+SQL>
+=========================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Sep 21 10:17:17 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> desc ss1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               CHAR(10)
+
+SQL> select * from ss1;
+
+no rows selected
+
+SQL> insert into ss1 values(2,'Krishna');
+
+1 row created.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         2 Krishna
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+
+SQL> commit;
+
+Commit complete.
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 Ramesh
+         2 Ramesh
+         3 Ramesh
+
+SQL> select * from ss1;
+
+        ID NAME
+---------- ----------
+         1 QT
+         2 Krishna
+         3 Ramesh
+
+SQL>
+
