@@ -4592,4 +4592,326 @@ SQL> select * from ss1;
          3 Ramesh
 
 SQL>
+============================
 
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Sep 22 09:08:29 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+CHECKVIEW                      VIEW
+COMPVIEW                       VIEW
+CUST1                          TABLE
+EMP1                           TABLE
+SEQ                            TABLE
+SS1                            TABLE
+STU1                           TABLE
+STU2                           TABLE
+STU3                           TABLE
+STUMV1                         TABLE
+STUNEW1                        TABLE
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STUREADVIEW                    VIEW
+STUSPE                         TABLE
+STUV1                          VIEW
+STUVIEW1                       VIEW
+TEST1                          TABLE
+TEST2                          TABLE
+TEST3                          TABLE
+TEST4                          TABLE
+TEST5                          TABLE
+TEST6                          TABLE
+
+21 rows selected.
+
+SQL> select * from emp1;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+
+SQL> insert into emp1 values(105,'dchvjdh',6666);
+
+1 row created.
+
+SQL> CREATE OR REPLACE TRIGGER trg_emp1_ins
+  2  BEFORE INSERT ON emp1
+  3  FOR EACH ROW
+  4  BEGIN
+  5  DBMS_OUTPUT.PUT_LINE('Insert operation performed successfully');
+  6  END;
+  7  /
+
+Trigger created.
+
+SQL> insert into emp1 values(107,'dchvjdh',7777);
+
+1 row created.
+
+SQL> SET SERVEROUTPUT ON;
+SQL> insert into emp1 values(108,'Trigger',8888);
+Insert operation performed successfully
+
+1 row created.
+
+SQL>
+=========================
+
+SQL> create table emp2 as select * from emp1;
+
+Table created.
+
+SQL> select * from emp2;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+       105 dchvjdh          6666
+       107 dchvjdh          7777
+       108 Trigger          8888
+
+7 rows selected.
+
+SQL> drop emp2;
+drop emp2
+     *
+ERROR at line 1:
+ORA-00950: invalid DROP option
+
+
+SQL> drop table emp2;
+
+Table dropped.
+
+SQL> select * from emp2;
+select * from emp2
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> rollback;
+
+Rollback complete.
+
+SQL> select * from emp2;
+select * from emp2
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> flashback table emp2 to before drop;
+flashback table emp2 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
+
+
+SQL> alter system set recycle bin = on;
+alter system set recycle bin = on
+                 *
+ERROR at line 1:
+ORA-02065: illegal option for ALTER SYSTEM
+
+
+SQL> alter system set recyclebin = on;
+alter system set recyclebin = on
+                               *
+ERROR at line 1:
+ORA-02096: specified initialization parameter is not modifiable with this
+option
+
+
+SQL> CREATE TABLESPACE qt237 DATAFILE 'test_ts1.dbf' SIZE 50M;
+
+Tablespace created.
+
+SQL> create table emp2 as select * from emp1;
+
+Table created.
+
+SQL> select * from emp2;
+
+       EID ENAME          SALARY
+---------- ---------- ----------
+       101 Ramu            55000
+       103 Shyam           15000
+       106 Lalitha         25000
+       109 Murali          35000
+       105 dchvjdh          6666
+       107 dchvjdh          7777
+       108 Trigger          8888
+
+7 rows selected.
+
+SQL> drop table emp2;
+
+Table dropped.
+
+SQL> select * from emp2;
+select * from emp2
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> flashback table emp2 to before drop;
+flashback table emp2 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
+
+
+SQL>
+===================
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Sep 22 09:45:35 2026
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> ALTER USER qt235 DEFAULT TABLESPACE qt237;
+ALTER USER qt235 DEFAULT TABLESPACE qt237
+           *
+ERROR at line 1:
+ORA-01918: user 'QT235' does not exist
+
+
+SQL> ALTER USER qt237 DEFAULT TABLESPACE testts;
+ALTER USER qt237 DEFAULT TABLESPACE testts
+*
+ERROR at line 1:
+ORA-00959: tablespace 'TESTTS' does not exist
+
+
+SQL> CREATE TABLESPACE test_ts1 DATAFILE 'test_ts1.dbf' SIZE 50M;
+CREATE TABLESPACE test_ts1 DATAFILE 'test_ts1.dbf' SIZE 50M
+*
+ERROR at line 1:
+ORA-01537: cannot add file 'test_ts1.dbf' - file already part of database
+
+
+SQL> CREATE TABLESPACE test_ts1 DATAFILE 'test_ts2.dbf' SIZE 50M;
+
+Tablespace created.
+
+SQL> connect test_ts1;
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Warning: You are no longer connected to ORACLE.
+SQL> ALTER USER qt237 DEFAULT TABLESPACE test_ts1;
+SP2-0640: Not connected
+SQL> ALTER USER qt237 DEFAULT TABLESPACE test_ts2;
+SP2-0640: Not connected
+SQL> connect qt237
+Enter password:
+Connected.
+SQL> ALTER USER qt237 DEFAULT TABLESPACE test_ts1;
+
+User altered.
+
+SQL> create table test123(id number(3),name varchar(5));
+
+Table created.
+
+SQL> insert into test123 values(11,'hjhgjh');
+insert into test123 values(11,'hjhgjh')
+                              *
+ERROR at line 1:
+ORA-12899: value too large for column "QT237"."TEST123"."NAME" (actual: 6,
+maximum: 5)
+
+
+SQL> insert into test123 values(11,'hjh');
+
+1 row created.
+
+SQL> insert into test123 values(12,'hjh');
+
+1 row created.
+
+SQL> insert into test123 values(13,'hjh');
+
+1 row created.
+
+SQL> select * from test123;
+
+        ID NAME
+---------- -----
+        11 hjh
+        12 hjh
+        13 hjh
+
+SQL> drop table;
+drop table
+         *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> drop table test123;
+
+Table dropped.
+
+SQL> select * from test123;
+select * from test123
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> flashback table test123 to before drop;
+
+Flashback complete.
+
+SQL> select * from test123;
+
+        ID NAME
+---------- -----
+        11 hjh
+        12 hjh
+        13 hjh
+
+SQL> drop table test123;
+
+Table dropped.
+
+SQL> select * from test123;
+select * from test123
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> purge table test123;
+
+Table purged.
+
+SQL> flashback table test123 to before drop;
+flashback table test123 to before drop
+*
+ERROR at line 1:
+ORA-38305: object not in RECYCLE BIN
+
+
+SQL>
